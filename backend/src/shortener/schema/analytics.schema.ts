@@ -6,7 +6,7 @@ import { IsString, IsNumber } from 'class-validator';
 export class AnalyticsDoc extends Document {
   @Prop()
   @IsString()
-  url: string;
+  longUrl: string;
 
   @Prop()
   @IsString()
