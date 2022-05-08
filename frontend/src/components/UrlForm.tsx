@@ -1,10 +1,20 @@
 import * as React from "react";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import api from "../axios";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Link,
+} from "@mui/material";
+import { api, config } from "../axios";
 
 const UrlForm = () => {
   const [response, setResponse] = React.useState({
+    longUrl: "",
     shortUrl: "",
+    urlCode: "",
+    createdAt: "",
   });
   const [url, setUrl] = React.useState({
     longUrl: "",
@@ -17,11 +27,20 @@ const UrlForm = () => {
     });
   };
 
+  const onClickEvent = async (e: any) => {
+    e.preventDefault();
+    try {
+      await api.get(`/${response.urlCode}`, config);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onSubmitHandler = async (e: any) => {
     e.preventDefault();
     try {
       const res = await api.post("/", url);
-      setResponse(res.data.shortUrl);
+      setResponse(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -50,12 +69,18 @@ const UrlForm = () => {
             <TextField
               margin="normal"
               fullWidth
-              label="Enter or paste your long url"
               id="longUrl"
               name="longUrl"
               onChange={handleUrlChange}
             />
-
+            <Typography
+              //onClick={onClickEvent}
+              component="h3"
+              variant="h5"
+              color="black"
+            >
+              <Link href={response.longUrl}>{response.shortUrl}</Link>
+            </Typography>
             <Button type="submit" variant="outlined" sx={{ mt: 3, mb: 2 }}>
               Make a tiny URL!
             </Button>
