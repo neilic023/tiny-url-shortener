@@ -14,7 +14,6 @@ const UrlForm = () => {
     longUrl: "",
     shortUrl: "",
     urlCode: "",
-    createdAt: "",
   });
   const [url, setUrl] = React.useState({
     longUrl: "",
@@ -30,6 +29,7 @@ const UrlForm = () => {
   const onClickEvent = async (e: any) => {
     e.preventDefault();
     try {
+      await api.post("/analytics", url);
       await api.get(`/${response.urlCode}`, config);
     } catch (err) {
       console.log(err);
@@ -74,7 +74,7 @@ const UrlForm = () => {
               onChange={handleUrlChange}
             />
             <Typography
-              //onClick={onClickEvent}
+              onClick={onClickEvent}
               component="h3"
               variant="h5"
               color="black"
